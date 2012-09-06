@@ -1,8 +1,8 @@
 ;;; clmemo.el --- Change Log MEMO -*-emacs-lisp-*-
 
-;; Copyright (c) 2002, 2003, 2004, 2005  Masayuki Ataka <ataka@milk.freemail.ne.jp>
+;; Copyright (c) 2002, 2003, 2004, 2005  Masayuki Ataka <masayuki.ataka@gmail.com>
 
-;; Author: Masayuki Ataka <ataka@milk.freemail.ne.jp>
+;; Author: Masayuki Ataka <masayuki.ataka@gmail.com>
 ;; Keywords: convenience
 
 ;; This file is not part of GNU Emacs.
