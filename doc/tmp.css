@@ -1,0 +1,2 @@
+/* Texinfo bug? duplicate `ii' is needed for @import. */
+@iimport url(./clmemo.css);

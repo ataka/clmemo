@@ -1,0 +1,12 @@
+@html
+<h2>NEWS</h2>
+@end html
+
+@itemize @bullet
+@item
+[2005-05-16]: clmemo ver. 1.0.0 Release
+@end itemize
+
+@html
+<h2>Contents</h2>
+@end html

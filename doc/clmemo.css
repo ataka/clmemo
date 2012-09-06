@@ -1,0 +1,127 @@
+/* This is CSS file for ensemble site
+   $Id: ensemble.css,v 1.12 2005/02/07 18:37:46 ataka Exp $
+
+   First Edit: 2000/12/18 */
+
+body {
+ margin: 1em 5%;
+ line-height: 1.35;
+}
+
+h1 {
+ text-align: center;
+ text-family: sans-serif;
+ text-size: xx-large;
+ margin: 0.8em -5%;
+ padding: 0.5em;
+ background-color: #ffff00;
+}
+
+h2 {
+ text-family: sans-serif;
+ text-size: xx-large;
+ border-bottom: 4px dotted #666666;
+ padding-bottom: 4px;
+ padding-top: 20px;
+}
+
+h3 {
+ text-size: x-large;
+ border-bottom: 2px dotted #666666;
+ padding-bottom: 4px;
+ padding-top: 20px;
+}
+
+h4 {
+ text-size: x-large;
+ border-bottom: 1px dotted #666666;
+ padding-bottom: 4px;
+ padding-top: 16px;
+}
+
+h5{
+ text-size: large;
+ text-family: monospace;
+ border-bottom: 1px dotted #666666;
+ padding-bottom: 4px;
+ padding-top: 16px;
+}
+
+div.update {
+ text-align: right;
+}
+
+div[align|=right] blockquote {
+  text-align: right;
+  line-height: 1;
+  margin-right: 0px;
+  margin-left: 0px;
+}
+div[align|=right] blockquote p {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+
+div.tag {
+ text-align: center;
+ word-spacing: 5em;
+}
+
+div.tag a {
+ text-decoration: none;
+}
+
+pre {
+ background-color: #ffffe0;  /* LightYellow */
+ margin-right: -5%;
+ padding: 0.5em;
+ border-left: 1px solid #aaaa88;
+}
+
+p {
+ text-indent: 1.2em;
+}
+.noindent { text-indent: 0px; }
+
+ul.no_link_cont {
+ display: compact;
+}
+
+ul {
+ margin-right: -5%;
+}
+
+dl {
+ border-left: 1px solid #eeeee0;
+ border-bottom: 1px solid #eeeee0;
+}
+
+dl dt {
+ background-color: #ffffe0;
+ text-indent: 1em;
+}
+
+table {
+ margin-left: auto;
+ margin-right: auto;
+}
+
+.hidden { visibility: hidden; }
+a.hidden:hover { visibility: visible; }
+
+a {
+ text-decoration: none;
+}
+
+/* a:link { color: #222200; border-bottom: 1px dotted #6495ed; padding-bottom: 1px;} */
+a:link { color: #222200; border-bottom: 1px dotted #222200; padding-bottom: 1px;}
+a:visited { color: #444400; }
+
+address {
+ line-height: 1.5;
+}
+
+img{
+ border: none; 
+}

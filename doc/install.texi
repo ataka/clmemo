@@ -1,0 +1,58 @@
+@ifset rawfile
+@section clmemo のインストール
+@end ifset
+
+@ifclear rawfile
+@node install clmemo, input memo, clmemo, clmemo
+@comment  node-name,  next,  previous,  up
+@section clmemo のインストール
+@end ifclear
+
+@ifset rawfile
+@set clmemo  ChangeLog メモ
+@end ifset
+
+最新版の clmemo.el は以下の場所にある。
+
+@itemize @bullet
+@item
+@url{http://pop-club.hp.infoseek.co.jp/emacs/clmemo-1.0.tar.gz}
+@end itemize
+
+@noindent
+ダウンロード後の作業は、以下の通り。
+make 前に必要に応じて、@file{Makefile} を編集する。
+
+@verbatim
+$ tar xzvf clmemo-1.0.tar.gz
+$ cd clmemo-1.0
+$ make
+# make install
+@end verbatim
+
+続けて、@file{.emacs} に以下のコードを追加する。
+
+@vindex clmemo-file-name
+@lisp
+(autoload 'clmemo "clmemo" "ChangeLog memo mode." t)
+;; あなたの ChangeLog メモファイルへのパス
+(setq clmemo-file-name "~/personal/memo/clmemo.txt")
+;; 好きなキーへバインド
+(global-set-key "\C-xM" 'clmemo)
+@end lisp
+
+@noindent
+ここでは、@value{clmemo} が @file{~/personal/memo/clmemo.txt} にあるとしている。
+また、関数 @samp{clmemo} を @kbd{C-x M} にバインドした。
+以降の説明は、上の設定に従うものとする。
+もし、違う設定を施した場合は、適宜読み替えて頂きたい。
+
+最後に、@value{clmemo}ファイルの末尾に以下のコードを追加する。
+
+@verbatim
+^L
+Local Variables:
+mode: change-log
+clmemo-mode: t
+End:
+@end verbatim

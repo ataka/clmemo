@@ -1,0 +1,1811 @@
+\input texinfo
+@c %**start of header
+@setfilename changelog.info
+@settitle Let's Try ChangeLog Memo
+@paragraphindent 1
+@syncodeindex pg cp
+@syncodeindex ky fn
+@setcontentsaftertitlepage
+@c @setchapternewpage off
+@afourpaper
+@finalout
+@documentlanguage ja
+@c %**end of header
+
+@set EDITION 0.1.2
+@set clmemo  ChangeLog メモ
+@set clmemo_version 1.0
+@set blgrep_version 0.2
+
+
+@ifinfo
+This is a Texinfo file about ChangeLog Memo.
+
+Copyright @copyright{} 2004, 2005 Masayuki Ataka
+
+@dircategory Document
+@direntry
+* clmemo: (changelog).			ChangeLog Memo. (in Japanese)
+@end direntry
+@end ifinfo
+
+
+@iftex
+@titlepage
+@title Let's Try ChangeLog Memo
+@subtitle Edition @value{EDITION}
+@author by 安宅 正之 (Masayuki Ataka) @email{ataka@@milk.freemail.ne.jp}
+@end titlepage
+@end iftex
+
+@ifnottex
+@node top, Preface, (dir), (dir)
+@comment  node-name,  next,  previous,  up
+@ifnothtml
+@top @value{clmemo}を試してみよう
+@end ifnothtml
+@ifhtml
+@titlefont{@value{clmemo}を試してみよう}
+@end ifhtml
+
+本テキストは、@dfn{@value{clmemo}}と関連ツールの解説を目的としている。
+
+@value{clmemo}とは、プログラム開発の現場で更新履歴を取るために利用されている
+ChangeLog と呼ばれるファイルの書式を利用して、電子メモを取ろうというアイデアである。
+
+@end ifnottex
+
+@ifset website
+@include news.texi
+@end ifset
+
+@menu
+* Preface::                     エッセイ風の序文
+* ChangeLog::                   ChangeLog
+* ChangeLog Memo::              @value{clmemo}
+* clmemo::                      clmemo --- @value{clmemo} モード
+* clgrep::                      clgrep --- ChangeLog grep
+* tools::                       関連ツール
+* References::                  参考文献およびウェブページ
+* other changelog format::      他の ChangeLog 形式
+* Variable Index::              変数索引
+* Program Index::               関数・プログラム索引
+* Concept Index::               概念索引
+@end menu
+
+@node Preface, ChangeLog, top, top
+@comment  node-name,  next,  previous,  up
+@unnumbered エッセイ風の序文
+
+本テキストの目的は @value{clmemo}の紹介である。
+この題名にもなつてゐる @value{clmemo}とは一体何か。
+一言でいへば、それは概念である。
+それも、コンピューター上のメモ、つまり電子メモのための概念である。
+アイデアといつても差し支えない。
+
+大仰にいふのだから、難しいにちがひない。
+私なんかにはとても手が出まい、と思はれるむきもあらう。
+しかしさにあらず。
+プログラムの知識なんて要らない。
+レポート用紙に書くまでもない。
+実は、とても簡単なものである。
+@ifhtml
+それも、ただの一行で説明できる
+(ウェブ・ブラウザーでお読みの方は、ブラウザーの幅をあまり狭くなさらぬやうに)。
+@end ifhtml
+@ifnothtml
+それも、ただの一行で説明できる。
+@end ifnothtml
+かうである。
+
+@quotation
+一つのファイルに ChangeLog 形式で全てのメモを取る
+@end quotation
+
+@noindent
+これだけである。
+なあんだそれだけか、と侮るなかれ。
+ここには二つの意味がある。
+
+一つは、@emph{一つのファイルに全てのメモを取る} といふ件である。
+これは、@cite{「超」整理法}の@dfn{ポケット一つの原則}
+---「必要なものは一つの収納場所にしまうべきである」といふ考え---
+をコンピューター上のメモに適用したものである。
+言ひ換えれば、「必要なメモは一つのファイルにしまうべきである」とならうか。
+しかしこの効能について、私が下らないことを書き連らねるよりも、
+@cite{「超」整理法}から引用した方がよろしからう。
+
+@quotation
+目的の書類は、本棚の中に必ず存在しているからだ。
+捨ててさえいなければ、必ずこの中にある。
+ほかの場所を探す必要はない。
+つまり、「存在定理」が証明されているのである。
+だから、ここを探せば、必ず出てくる。
+捜索は、この場所に限定して行えばよい。
+@end quotation
+
+@noindent
+ここで、「目的の書類」は「目的のメモ」、「本棚」は「ファイル」と読み換えればよろしい。
+一般に、ないものをないと証明するのは難しい。
+ファイルを一つに限定することで、
+メモの検索効率が上がり、
+ないものを探しまわる手間が省けるわけである。
+ついでにいへば、ファイルの移動・編集も楽になる。
+たくさんのファイルと一つのファイルでは、どちらが扱い易いか自明であらう。
+
+さて、@value{clmemo} のもう一つの重要な意味を説明しやう。
+それは、@emph{ChangeLog 形式でメモを取る} といふ件である。
+なぜ ChangeLog 形式なのか。
+それは、メモとメモの記入日が常に一緒になるからである
+(ChangeLog 形式の詳しい説明は本文にゆずる)。
+日付の入つていない日記が役にたたないのと同じやうに、
+何時書いたのかわからぬメモは価値が低い。
+もちろん、メモに記入日が一緒に入れば何でもよいのである。
+ChangeLog 形式は、たまたまその要求を満たしており、
+プログラムの世界では比較的有名で、
+特別なソフトに依存しておらず、わかりやすい形式であった。
+だから、我々は ChangeLog 形式を使っているにすぎない。
+
+@cindex plain text
+蛇足ながら付け加えると、メモをプレーン・テキストで取れることも嬉しい。
+というのも、特定のプログラム (例えば Word) に依存せずにすむからである。
+もしさういふことになれば、プログラムの寿命がメモの寿命になつてしまう。
+メモは一生ものであるから、
+できるだけプログラムに依存しないやうにしたい。
+いわゆる、データとアプリケーションの分離である。
+ChangeLog 形式は、さういふ意味でも電子メモとして優れている。
+
+@value{clmemo}に興味を持つていただけたであらうか。
+よろしければ、この先をお読み頂きたい。
+ChangeLog メモの具体的な書き方、
+編集・検索用ツールの紹介、
+いくつかの有用なポインターがある。
+
+最後に、@value{clmemo}の一例をもつて、序文を締めくくらせて頂く。
+
+@verbatim
+2004-09-06  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* clmemo: エッセイ風の序文を書いた。
+
+@end verbatim
+
+
+@node ChangeLog, ChangeLog Memo, Preface, top
+@comment  node-name,  next,  previous,  up
+@chapter ChangeLog
+
+@flushright
+@quotation
+ChangeLog ファイルは、
+プログラムが何時、何故変更されたのかという時系列記録を持つ。
+記録は変更点を記述した連続物のエントリーで構成されている。
+普通、その記録は @file{ChangeLog} と呼ばれるファイルに保存されている...
+@end quotation
+
+@quotation
+A change log file contains a chronological record of when and why you
+have changed a program, consisting of a sequence of entries describing
+individual changes.  Normally it is kept in a file called @file{ChangeLog}...
+@end quotation
+--- from @cite{GNU Emacs Reference Manual}
+@end flushright
+
+@pindex GNU Emacs
+@pindex Emacs
+本章では、@value{clmemo}が利用している ChangeLog のフォーマットを説明する。
+そもそも ChangeLog とは、(プログラムの) コードの変更履歴を書く為のフォーマットであった。
+そのためいくつかのバリエーションがあるが、
+ここでは GNU Emacs がサポートしている ChangeLog 形式を紹介する。
+なお、ChangeLog の用語は
+@ref{Change Log, Change Logs, Change Logs,emacs,GNU Emacs Reference Manual} に依った。
+
+最初に ChangeLog の例を示す。
+
+@verbatim
+1993-05-25  Richard Stallman  <rms@gnu.org>
+
+        * man.el: Rename symbols `man-*' to `Man-*'.
+        (manual-entry): Make prompt string clearer.
+
+        * simple.el (blink-matching-paren-distance):
+        Change default to 12,000.
+
+1993-05-24  Richard Stallman  <rms@gnu.org>
+
+        * vc.el (minor-mode-map-alist): Don't use it if it's void.
+        (vc-cancel-version): Doc fix.
+
+@end verbatim
+
+@cindex entry
+@cindex entry header
+@cindex header, entry
+@cindex e-mail address
+@cindex user name
+ChangeLog は、複数の「エントリー」によって構成されている。
+「エントリー」の一行目は「エントリー・ヘッダー」で、
+記入日と名前、そしてメール・アドレスから成る。
+エントリー・ヘッダーから次のエントリー・ヘッダーを一つのエントリーと数える。
+上の例では、@samp{1993-05-25  Richard Stallman  <rms@@gnu.org>} と
+@samp{1993-05-24  Richard Stallman  <rms@@gnu.org>} の二行がエントリー・ヘッダーで、
+二つのエントリーがあることが分かる。
+
+@cindex item
+@cindex TAB
+@cindex asterisk
+「エントリー・ヘッダー」に続けて、複数の「アイテム」が続く。
+ここが変更点を具体的に書く場所である。
+アイテムのルールは次の 2 つ。
+
+@itemize @bullet
+@item
+アイテムはタブでインデントされる。
+
+@item
+アイテムは @samp{*} (アスタリスク) で始まり、空行で終わる。
+@end itemize
+
+アイテムは通常、
+@samp{* ファイル名: } もしくは @samp{* ファイル名 (関数名or変数名): } という形を取る。
+
+上の例では、最初のエントリーに 2 つのアイテム。次のエントリーに 1 つのアイテムがある。
+一番最初のアイテムは @file{man.el} というファイルに関する変更履歴である:
+まず、@samp{man-*} で始まるシンボルを @samp{Man-*} という形にリネームしたとある。
+続けて、@samp{manual-entry} という関数のプロンプト文字列を分かり易くしたとある。
+二番目のアイテムは @file{simple.el} というファイルの変更履歴だ。
+@samp{blink-matching-paren-distance} という変数のデフォールト値を 12000 にしたとある。
+
+これにエントリー・ヘッダーの情報を合わせれば、
+上記変更が 1993 年 5 月 25 日に Richard Stallman 氏によって行われた事が分かる。
+そして 1993 年 5 月 24 日の変更履歴が続くわけだが、もはや説明は不要であろう。
+
+
+@menu
+* ChangeLog mode on Emacs::     Emacs の ChangeLog モード
+@end menu
+
+@node ChangeLog mode on Emacs,  , ChangeLog, ChangeLog
+@comment  node-name,  next,  previous,  up
+@section Emacs の ChangeLog モード
+
+@pindex GNU Emacs
+@pindex Emacs, GNU
+Emacs は標準で ChangeLog を編集する為のモードを備えている。
+通常 @file{ChangeLog} という名前のファイルを開けば、
+自動的に ChangeLog モードに入る。
+ChangeLog モードは、次の機能を提供する。
+
+@itemize @bullet
+@item
+ChangeLog に応じた色付け。
+
+@item
+改行で行頭への TAB 文字自動挿入。
+
+@item
+行頭の TAB を考慮した fill。
+@end itemize
+
+@findex add-change-log-entry-other-window
+しかし、Emacs ユーザーは @file{ChangeLog} ファイルを直接、手で開いたりしない。
+編集中のファイルで @kbd{C-x 4 a} (@samp{M-x add-change-log-entry-other-window})
+と打つのである。
+すると Emacs は、
+適切な @file{ChangeLog} ファイルを開き、
+エントリー・ヘッダーとファイル名と関数名or変数名を自動的に挿入する。
+この機能は、C でも Perl でも Ruby でも Fortran でも Java でも、
+ほとんどの言語でサポートされている。
+
+なお、エントリー・ヘッダーに使われるユーザー名とメール・アドレスは、
+次の 2 つの変数で変えられる。
+
+@defopt user-full-name
+エントリー・ヘッダーのユーザー名
+@end defopt
+
+@defopt user-mail-address
+エントリー・ヘッダーのメール・アドレス
+@end defopt
+
+@pindex CVS
+@cindex Version Control System
+@cindex Rivision Control System
+@cindex *VC-Log*
+@cindex Log
+もし、編集中の File が CVS などのバージョン管理下にあるなら、
+@samp{*VC-Log*} バッファーで @kbd{C-c C-a} してみよう。
+ChangeLog からログがコピーされる。
+
+@node ChangeLog Memo, clmemo, ChangeLog, top
+@comment  node-name,  next,  previous,  up
+@chapter @value{clmemo}
+
+@flushright
+@quotation
+年寄りパイロットや勇敢なパイロットはいるが、
+勇敢な年寄りパイロットはいない。
+@end quotation
+
+@quotation
+There are old pilots, and there are bold pilots,
+but there are no old, bold pilots.
+@end quotation
+--- from @cite{chalow を用いた ChangeLog 電子メモ術の極意}
+@end flushright
+
+@pindex Namazu
+@cindex plain text
+@value{clmemo}とは、ChangeLog 形式を利用して電子メモを取ろうというアイデアで、
+山下達雄氏によって 2000 年頃に提唱され、
+2002 年 12 月、Namazu で有名な高林哲氏が Unix Magazine の「横着プログラミング」
+で取り上げた事から広く知られるようになったものである。
+@ref{Preface, 序文, 序文}にある通り、
+@value{clmemo}ファイルは一つのファイルで、
+メモに限らず、日誌、予定、家計簿などを書いておく。
+プレーン・テキストを利用した電子メモなので、
+
+@itemize @bullet
+@item
+grep やエディターのサーチといった既存のツールで検索可能
+
+@item
+sed や Perl, Ruby などで簡単に加工可能
+@end itemize
+@noindent
+である。一方、画像を始めとするバイナリー・データは扱えない。
+
+@cindex title
+@cindex subtitle
+@pindex chalow
+@cindex category, chalow
+@verbatim
+2005-03-11  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* タイトル (サブ・タイトル): ChangeLog の「アイテム」は一日のメモに、
+	ファイル名はメモの「タイトル」に、
+	関数名or変数名はメモの「サブ・タイトル」にあたる。
+
+	昔は空行をメモの区切りとしていたが、今はそうではない。
+	空行の後に TAB* があると新しいメモが始まったとみなす。
+
+	* chalow [カテゴリ]: chalow では、サブ・タイトル部分に [...] を使う。
+	ここをカテゴリと呼ぶ。
+
+2004-07-22  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* pop-club: blgrep-0.1rc1 と clmemo-1.0rc1 をリリース。
+	chalow ML にもリリースをメールした。
+	※ pop-club は筆者のウェブページ。作業日誌としてメモを取った。
+
+	* Command (grep): -v 結果の反転。マッチしなかった行を選択する。
+	※ grep コマンドの使い方をメモした。
+	※ もう man の網羅的な説明から -v オプションを探す必要はない。
+
+@end verbatim
+
+@value{clmemo}は一生使える電子メモを目的としている。
+@quotation
+「勇敢な (=格好いい) ツールを次から次へと現れるとしても、
+結局、最後はシンプルなものが生き延びる
+@end quotation
+@noindent
+と信じている。
+
+
+@menu
+* inline date::                 インライン日付
+* quote::                       引用文
+* tag::                         タグ
+@end menu
+
+@node inline date, quote, ChangeLog Memo, ChangeLog Memo
+@comment  node-name,  next,  previous,  up
+@section インライン日付
+@cindex inline date
+
+@dfn{インライン日付}とは、
+年月日をハイフンで繋ぎ角カッコ @samp{[...]} で囲んだものである。
+一桁の月や日は、@samp{0} を補って二桁にする。
+
+@example
+[2004-07-07]
+@end example
+
+@noindent
+インライン日付はアイテム中のどこにでも書けるが、
+下記のように行をまたいではならない。
+
+@example
+[2004-07-
+07]
+@end example
+
+インライン日付に対して、エントリー・ヘッダーにある日付を、
+@dfn{エントリーの日付}とか単に@dfn{日付}と呼ぶ。
+後に説明する clmemo.el や clgrep や chalow では、
+インライン日付はそのエントリーの日付へのハイパーリンクになる。
+
+@cindex inline date, item number
+@cindex item number, inline date
+インライン日付では、アイテムを直接指定することもできる。
+以下のように、アイテムも指定したインライン日付を@dfn{アイテム情報付インライン日付}と呼ぶ。
+
+@example
+[2004-07-07-3]
+@end example
+
+上の例は、2004 年 7 月 7 日のエントリーの下から 3 番目のアイテムを指す。
+アイテム情報付インライン日付では、アイテムの番号をエントリーの下から数える。
+これは、上から数えるとアイテムを追加した時に番号がずれてしまうためである。
+
+@node quote, tag, inline date, ChangeLog Memo
+@comment  node-name,  next,  previous,  up
+@section 引用文
+@cindex quotation
+
+@value{clmemo}では、引用を表すのに次の二つの表記を用いることが多い。
+一つは、行頭に @samp{>} もしくは @samp{|} といった記号を付ける方法である。
+
+@verbatim
+2005-03-12 (Sat)  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* clmemo: 短い引用のやり方
+	> メールの引用記号のようなノリで書ける。
+	> ただし、長い引用には向かない。
+	| 引用記号は、`>' でも `|' でもよい。
+	| 引用記号は TAB のすぐ後に来ることが期待される。
+	 | 従って、これは引用ではない。
+
+@end verbatim
+
+もう一つの方法は、
+引用の始まりに @samp{>>} と書いた一行を、
+引用の終わりに @samp{<<} と書いた一行を入れる方法である。
+
+@verbatim
+2005-03-12 (Sat)  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* clmemo: 長い引用のやり方
+	>>
+	長い引用は `>>' と `<<' の間に書く。
+	行頭に引用記号を入れなくて済むので楽だ。
+	せっかくの長い引用の例なのに、短くてスマン。
+	短い引用に使ってもよいということで...
+	<<
+
+@end verbatim
+
+@pindex chalow
+@cindex blockquote
+後述の chalow は、引用部分を blockquote 要素で囲う。
+
+@node tag,  , quote, ChangeLog Memo
+@comment  node-name,  next,  previous,  up
+@section タグ
+@cindex tag
+@cindex one line keyword
+@cindex keyword, one line
+
+タグとは、一行指行のキーワードである。
+
+@example
+(tagname: text)
+@end example
+
+@pindex clmemo
+@pindex clgrep
+後に説明する clmemo, clgrep では、
+url タグはそのアドレスへのハイパーリンクになる。
+
+chalow では対応していない?
+
+@node clmemo, clgrep, ChangeLog Memo, top
+@comment  node-name,  next,  previous,  up
+@chapter clmemo --- @value{clmemo} モード
+
+@flushright
+@quotation
+Emacs ユーザーは幸せです。
+何故なら、C-x 4 a と押すだけで、
+簡単に ChangeLog ファイルを作れちゃうからです。
+@end quotation
+--- from @cite{ex-webpage}
+@end flushright
+
+@pindex clmemo
+clmemo.el は、@value{clmemo}の入力を支援するコマンドやマイナー・モードを提供する。
+
+@menu
+* install clmemo::              clmemo のインストール
+* input memo::                  メモの入力
+* edit memo::                   メモの編集
+* other editor::                各エディタ上の clmemo
+@end menu
+
+@include install.texi
+
+@node input memo, edit memo, install clmemo, clmemo
+@comment  node-name,  next,  previous,  up
+@section メモの入力
+
+@table @kbd
+@item C-x M
+あなたの「ChangeLog メモ」を開き、メモのタイトルを補完入力する。
+
+@item C-u C-x M
+あなたの「ChangeLog メモ」を開く。or 過去のメモを追加。
+
+@item C-u C-u C-x M
+あなたの「ChangeLog メモ」を検索する。 
+@end table
+
+@cindex title
+例として「メモ」というタイトルのメモを書いてみよう。
+@kbd{M-x clmemo} とすると、タイトルの入力を促すプロンプトが出るので、
+@samp{メモ}と入力する。
+@example
+clmemo title: メモ@key{RET}
+@end example
+
+@noindent
+ウィンドウが二つに分かれて、
+片方のウィンドウに @value{clmemo}ファイルが現れる。
+
+@verbatim
+2004-09-06  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* メモ: -!-
+
+@end verbatim
+
+@noindent
+@samp{-!-} は、カーソルの位置を表す。
+エントリー・ヘッダーに挿入されるユーザー名・e-mail アドレスの変更方法は
+@xref{ChangeLog mode on Emacs, Emacs の ChangeLog モード, Emacs の ChangeLog モード, emacs, GNU Emacs Reference Manual}.
+
+もし @value{clmemo}ファイルの中から clmemo を実行した場合は、
+ウィンドウを二つに分けない。
+また、タイトルの入力プロンプトで @kbd{C-g} を打つと、clmemo はメモの入力を中止する。
+
+@kbd{C-u M-x clmemo} のように数引数をつけて clmemo を呼び出すと、
+@value{clmemo}ファイルの外にいる場合、@value{clmemo}ファイルを開く。
+@c version 4.8-j get error `clmemo.texi:604: warning: undefined flag: clmemo.'
+@c @value{clmemo}ファイルの内にいる場合、カーソルを含む日付にメモを追加する。
+ChangeLog メモファイルの内にいる場合、カーソルを含む日付にメモを追加する。
+過去の日付にメモを追加するには、
+その日付に移動してから @kbd{C-u M-x clmemo} とする。
+
+@findex clmemo-exit
+clmemo を呼び出す前の状態に戻るには、@kbd{C-c C-q} (clmemo-exit) とする。
+
+@menu
+* clmemo region::               リージョンをメモに追加する
+* title::                       タイトルの補完入力
+* day of week::                 曜日情報の追加
+@end menu
+
+@node clmemo region, title, input memo, input memo
+@comment  node-name,  next,  previous,  up
+@unnumberedsubsec リージョンをメモに追加する
+@cindex region
+
+@file{.emacs} に次のコードを追加すると、リージョンがある場合、
+@kbd{C-x M} はリージョンをメモに追加するようになる。
+
+@vindex clmemo-buffer-function-list
+@findex clmemo-insert-region
+@verbatim
+(setq clmemo-buffer-function-list
+        '(clmemo-insert-region))
+@end verbatim
+
+
+@node title, day of week, clmemo region, input memo
+@comment  node-name,  next,  previous,  up
+@subsection タイトルの補完入力
+@cindex title, completion
+@cindex completion, title
+@vindex clmemo-title-list
+
+タイトルの入力には補完が使える。
+補完リストは変数 @var{clmemo-title-list} で定義されている。
+例えば次のように設定すると、
+@samp{idea}, @samp{computer}, @samp{購入} に対して補完入力ができるようになる。
+
+@verbatim
+(setq clmemo-title-list '(("idea" "computer" "購入")))
+@end verbatim
+
+@cindex alias
+@cindex title, alias
+補完リストには、別名を定義する事もできる。
+その場合は、@samp{(別名 . 本体)} という形で書く。
+例えば、上の設定では@samp{購入}の補完はいかにも面倒そうだ 
+(補完するのに日本語入力を ON にしなければならない!)
+そこで、別名に @samp{buy} を定義してみよう。
+
+@verbatim
+(setq clmemo-title-list '(("idea" "computer" ("buy" . "購入"))))
+@end verbatim
+
+@noindent
+タイトルに @samp{buy} と入力すると、自動的に@samp{購入}へと展開される。
+
+@cindex subtitle
+サブ・タイトルの入力も続けて行うには、
+タイトルの末尾に @samp{(} を置く。
+サブ・タイトルの入力でもタイトルと同様の補完が効く。
+
+上の @var{clmemo-title-list} 設定を使って、
+「CD の購入」というようなメモを作ってみよう。
+まず、@kbd{C-x M} でタイトル入力画面を出し、@samp{buy(} と入れる。
+
+@example
+clmemo title: buy(@key{RET}
+@end example
+
+@noindent
+@samp{buy} の後ろに@samp{(} がついているので、サブ・タイトルの入力を促すプロンプトが出る。
+ここで、@samp{buy} は自動的に@samp{購入}へと置き換えられる。
+
+@example
+subtitle for `購入': CD@key{RET}
+@end example
+
+@noindent
+@samp{CD} というサブ・タイトルを入力した。
+これで、次のようなメモを得る。
+
+@verbatim
+2005-03-12 (Sat)  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* 購入 (CD): -!-
+
+@end verbatim
+
+
+@defopt clmemo-title-list
+タイトル入力用の補完リスト。
+
+デフォールト値は @samp{'("idea" "computer")}。
+@end defopt
+
+@defopt clmemo-subtitle-char
+タイトルの末尾につける事で、サブ・タイトルの入力を促す文字。
+
+デフォールトは @samp{"("}。
+@end defopt
+
+@defopt clmemo-subtitle-punctuation-char
+サブ・タイトルの前後に、自動的に挿入される文字。
+
+デフォールトは @samp{'( "(" . ")")}。
+@end defopt
+
+
+@menu
+* subtitle as category::        カテゴリー風のサブ・タイトル
+* title correction::            タイトルの自動修正
+@end menu
+
+@node subtitle as category, title correction, title, title
+@comment  node-name,  next,  previous,  up
+@unnumberedsubsubsec chalow カテゴリー風のサブ・タイトル
+@pindex chalow
+@cindex category, chalow
+@cindex subtitle
+@vindex clmemo-subtitle-punctuation-char
+@vindex clmemo-subtitle-char
+
+変数 @var{clmemo-subtitle-char} と @var{clmemo-subtitle-punctuation-char}
+を次のように変更することで、
+chalow 風のカテゴリーが入力される。
+
+@verbatim
+(setq clmemo-subtitle-char "["
+      clmemo-subtitle-punctuation-char '(" [" . "]"))
+@end verbatim
+
+なお、chalow では次のように複数のカテゴリーを入力する場合がある。
+
+@example
+* うまい! [酒][コンビニ]: 昨日、コンビニで見つけた...
+@end example
+
+@noindent
+このようなカテゴリーを入力するには、
+カテゴリー入力の末尾に @samp{[} を加える。
+上の例を入力するには... @kbd{C-x M} でタイトルを入力 (末尾に @samp{[} を忘れないように)、
+
+@example
+clmemo title: うまい![@kbd{@key{RET}}
+@end example
+
+@noindent
+最初のカテゴリーが聞かれるから、それに答えて (末尾に @samp{[} を忘れないように)、
+
+@example
+subtitle for `うまい!': 酒[@kbd{@key{RET}}
+@end example
+
+@noindent
+もひとつカテゴリーが聞かれるから、答えてやる。
+
+@example
+subtitle for `うまい! (酒)': コンビニ@kbd{@key{RET}}
+@end example
+
+@noindent
+すると、複数カテゴリー付のメモができる。
+
+@verbatim
+2005-03-13 (Sun)  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* うまい! [酒] [コンビニ]: -!-
+
+@end verbatim
+
+
+@node title correction,  , subtitle as category, title
+@comment  node-name,  next,  previous,  up
+@unnumberedsubsubsec タイトルの自動修正
+@vindex clmemo-title-format-function
+@findex upcase-word
+@findex capitalize-word
+@findex downcase-word
+
+変数 @var{clmemo-title-format-function} を定義する事で、
+例えば、タイトルを常に大文字にするとか、小文字にするとかといった自動修正ができる。
+
+@table @samp
+@item (setq clmemo-title-format-function 'upcase-word)
+入力したタイトルを常に大文字にする
+
+@item (setq clmemo-title-format-function 'capitalize-word)
+入力したタイトルの一文字目を常に大文字にする
+
+@item (setq clmemo-title-format-function 'downcase-word)
+入力したタイトルを常に小文字にする
+@end table
+
+@node day of week,  , title, input memo
+@comment  node-name,  next,  previous,  up
+@subsection 曜日情報の追加
+@cindex day of week, entry header
+@cindex entry header, day of week
+
+clmemo のデフォールトのエントリー・ヘッダーは次のような形をしており、
+メモを取った日の曜日が分からない。
+
+@example
+2004-09-06  Masayuki Ataka  <ataka@@milk.freemail.ne.jp>
+@end example
+
+変数 @var{clmemo-time-string-with-weekday} を @samp{t} にすると、
+新規エントリー・ヘッダーに曜日情報を加えるようになる。
+
+@example
+2004-09-06 (Mon)  Masayuki Ataka  <ataka@@milk.freemail.ne.jp>
+@end example
+
+@defopt clmemo-time-string-with-weekday
+@samp{non-nil} なら、新規エントリー・ヘッダーに曜日情報を付加する。
+
+デフォールトは @samp{nil}。
+@end defopt
+
+また、既存のエントリー・ヘッダーを編集するために、
+次の 2 つのコマンドが用意されている。
+
+@defun clmemo-format-header-with-weekday
+リージョン内のエントリー・ヘッダーに曜日情報を付加する。
+@end defun
+
+@defun clmemo-format-header-without-weekday
+リージョン内のエントリー・ヘッダーから曜日情報を削除する。
+@end defun
+
+
+@node edit memo, other editor, input memo, clmemo
+@comment  node-name,  next,  previous,  up
+@section メモの編集
+
+本章では、@value{clmemo}の編集にかかわるコマンドを紹介する。
+
+
+@menu
+* move and mark::               移動とマーク
+* edit tab::                    行頭の TAB
+* edit inline date::            インライン日付の編集
+* edit quotation::              引用文の編集
+* edit tag::                    タグの編集
+@end menu
+
+@node move and mark, edit tab, edit memo, edit memo
+@comment  node-name,  next,  previous,  up
+@subsection 移動とマーク
+
+メモ単位の移動コマンドが、いくつか用意されている。
+下記のコマンドは、全て数引数を取ることで複数年・月を移動することができる。
+
+@defun @kbd{C-x [}
+@defunx clmemo-next-year
+次の年へ
+@end defun
+
+@defun @kbd{C-x ]}
+@defunx clmemo-previous-year
+前の年へ
+@end defun
+
+@defun @kbd{C-c @}}
+@defunx clmemo-previous-month
+前の月へ
+@end defun
+
+@defun @kbd{C-c @{}
+@defunx clmemo-next-month
+次の月へ
+@end defun
+
+マーク用の関数もある。
+
+@defun @kbd{C-x C-p}
+@defunx clmemo-mark-year
+カーソルのある年をマークする。
+@end defun
+
+@defun @kbd{C-c C-h}
+@defunx clmemo-mark-month
+カーソルのある月をマークする。
+@end defun
+
+@node edit tab, edit inline date, move and mark, edit memo
+@comment  node-name,  next,  previous,  up
+@subsection 行頭の TAB
+
+@value{clmemo}の欠点はメモの先頭に常に TAB が入ることだ、とよく言われている。
+本節では行頭の TAB と仲良くつきあうためのコマンドを紹介する。
+
+@findex clmemo-next-inline-date
+@kindex C-q TAB
+@kindex C-q C-i
+なお clmemo.el では、
+@kbd{TAB} (@kbd{C-i}) に @command{clmemo-next-inline-date} が割り当てられている。
+そのため、@kbd{TAB} で TAB 文字が入力できない。
+TAB 文字を入力するには、@kbd{C-q TAB} もしくは @kbd{C-q C-i} とする。
+ただし、行頭に TAB を挿入するだけなら、@command{clmemo-indent-region}
+を使う方が楽である。
+
+
+@defun @kbd{C-c TAB}
+@defunx @kbd{C-c C-i}
+@defunx clmemo-indent-region
+リージョンを TAB でインデントする。
+@end defun
+
+@defun @kbd{C-c C-w}
+@defunx clmemo-kill-ring-save
+@findex clmemo-kill-ring-save
+@findex kill-ring-save
+行頭の TAB を除いて、@command{kill-ring-save} (@kbd{M-w}) する。
+@end defun
+
+@defun @kbd{C-c C-y}
+@defunx clmemo-yank
+@findex clmemo-yank
+@findex yank
+@findex yank-pop
+行頭に TAB を加えて、@command{yank} (@kbd{C-y}) する。
+ただし、yank-pop (@kbd{M-y}) には対応していない。
+@end defun
+
+@node edit inline date, edit quotation, edit tab, edit memo
+@comment  node-name,  next,  previous,  up
+@subsection インライン日付の編集
+@cindex inline date
+@findex clmemo-insert-inline-date
+@kindex C-c C-d
+
+インライン日付入力モードは、@ref{inline date, インライン日付, インライン日付}
+の入力を少し (?) 楽にする挿入コマンドである。
+インライン日付を挿入したいと思ったら、
+@kbd{C-c C-d} (@command{clmemo-insert-inline-date}) としてインライン日付入力モードに入る。
+この時点で、まだインライン日付は挿入されない。
+入力したい日付のエントリーに移動して @kbd{RET} を押す。
+すると、インライン日付入力モードに入った場所へカーソルが戻り、
+そのエントリーの日付がインライン日付として入力される。
+インライン日付入力モードから抜けるには @kbd{q} である。
+
+具体的な例を見てみよう。
+例えば、次のようなメモを書いていたとする。
+
+@verbatim
+2003-09-15 (Mon)  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* 映画鑑賞: 「X-Men 2」 on DVD
+	X-Men 2 (2003)
+	-!-
+
+@end verbatim
+
+@noindent
+この映画の前作は、以前見たことがあるのでリンクをはっておきたい。
+上の @samp{-!-} の位置で、インライン日付入力モードに入る (@kbd{C-c C-d})。
+前作の題名は「X-Men」であるから、
+@kbd{C-s X-Men} として X-Men について書いてあるメモを探す。
+次のようなメモが見つかった。
+
+@verbatim
+2003-05-11 (Sun)  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* 映画鑑賞: 「X メン」 on TV
+	X-Men-!- (2000)
+	- 借りてきた (IT 以外の) DVD よりも、このテレビでやっていた X メンの方が面白い。
+	今、X-Men II をやっているから、ブームに乗ろうというテレビ企画か?
+	- マグニート (敵) 役でイアン・マッケランが出演。
+	次作では、X-Men 達と手を組んで活躍するというので楽しみだ。
+
+@end verbatim
+
+@noindent
+まさに、これこそ求めていたメモだ (X-Men は TV で見たのだなぁ)。
+@kbd{RET} をおすと、もといた場所に @samp{[2003-05-11]} と日付が挿入される。
+
+@verbatim
+2003-09-15 (Mon)  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* 映画鑑賞: 「X-Men 2」 on DVD
+	X-Men 2 (2003)
+	[2003-05-11]-!-
+
+@end verbatim
+
+@noindent
+最終的には、こんなメモができた。
+
+@verbatim
+2003-09-15 (Mon)  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* 映画鑑賞: 「X-Men 2」 on DVD
+	X-Men 2 (2003)
+	[2003-05-11] に観た X-Men の続編。
+	- ヒュー・ジャックマン、ハル・ベリー、イアン・マッケラン、パトリック・スチュワート
+	と豪華なメンバーが再び大活躍。
+	- SFX と相まって、とても面白い出来に仕上っていた。
+
+@end verbatim
+
+上の例ではインライン日付を挿入したが、
+アイテム情報付インライン日付を入力したければ、
+@kbd{RET} のかわりに @kbd{C-u RET} とする。
+
+@cindex view-mode
+インライン日付入力モードは、(View モードのように) 文字の編集を受けつけない代わりに、
+@kbd{space} や @kbd{backspace} に移動用のコマンドを割り当てている。
+
+@table @kbd
+@item RET
+カーソルのあるエントリーの日付をもといた位置に挿入する。
+
+@item C-u RET
+カーソルのあるエントリーの日付とアイテム情報をもといた位置に挿入する。
+
+@item q
+インライン日付入力モードを抜ける。
+
+@item s (r)
+前方 (後方) インクリメンタル・サーチ
+
+@item n (p)
+次の (前の) アイテムへ移動する。
+
+@item f (b)
+次の (前の) エントリーへ移動する。
+
+@item @{ (@})
+次の (前の) 月へ移動する。
+
+@item space (backspace)
+前の (後ろの) ページへ移動する。
+@end table
+
+
+@menu
+* clmemo inline date jump::     
+@end menu
+
+@node clmemo inline date jump,  , edit inline date, edit inline date
+@comment  node-name,  next,  previous,  up
+@unnumberedsubsubsec インライン日付へのジャンプ
+
+@defun @kbd{TAB}
+@defunx clmemo-next-inline-date
+次のインライン日付へジャンプ
+@end defun
+
+@defun @kbd{Shift-TAB}
+@defunx clmemo-previous-inline-date
+前のインライン日付へジャンプ
+@end defun
+
+
+@node edit quotation, edit tag, edit inline date, edit memo
+@comment  node-name,  next,  previous,  up
+@subsection 引用文の編集
+@cindex quotation
+
+@defun @kbd{C-c >}
+@defunx clmemo-quote-region
+リージョンの行頭に引用記号を追加する。
+
+数引数付で呼び出すと (@kbd{C-u C-c >})、使用する引用記号を尋ねてくれる。
+@end defun
+
+@defopt clmemo-quote-prefix
+関数 @command{clmemo-quote-region} で挿入される引用記号。
+
+デフォールトは @samp{">"}。
+@end defopt
+
+
+@node edit tag,  , edit quotation, edit memo
+@comment  node-name,  next,  previous,  up
+@subsection タグの編集
+@cindex tag
+
+本節では、@ref{tag, タグ, タグ} の設定方法と使い方を説明する。
+
+@vindex clmemo-tag-list
+タグは変数 @var{clmemo-tag-list} で設定する。
+デフォールトでは、2 つのタグ (@samp{url} と @samp{file}) が用意されている。
+電話番号用のタグ @samp{tel} とメール・アドレス用のタグ @samp{e-mail} を作ってみよう。
+
+@verbatim
+(setq clmemo-tag-list
+      (cons '("tel" "e-mail") clmemo-tag-list))
+@end verbatim
+
+@kindex C-c (
+@findex clmemo-tag-insert-quick
+タグを入力するには C-c ( (@command{clmemo-tag-insert-quick}) とする。
+
+@example
+tag:
+@end example
+
+@noindent
+とタグを聞いてくる。
+ここで、タグの頭文字を入れるとタグが入力される。
+例えば、@samp{url} タグを入力したい場合は @kbd{u} と入れればよい。
+頭文字が同じタグを設定していた場合は、
+list の中で一番最初に定義されているものが挿入される。
+二番目以降のタグを入力するには、@kbd{space} を打つ。
+すると、補完が効くようになる。
+
+タグの上で @var{C-c RET} すると、
+タグに関連づけられた関数が呼ばれる。
+これを、タグ・ジャンプと呼ぶ。
+デフォールトでは、
+@samp{url} タグには @command{browse-url-at-point} が、
+@samp{file} タグには @command{find-file-at-point} が呼ばれる。
+
+タグ入力時、タグ・ジャンプ時に関連を関連付けるには、
+変数 @var{clmemo-tag-list} を次の書式で設定する。
+
+@example
+(タグ名 ジャンプ用関数 入力用関数)
+@end example
+
+@noindent
+@var{clmemo-tag-list} のデフォールト値は、次の通り。
+
+@verbatim
+(defvar clmemo-tag-list
+        '(("url" browse-url-at-point)
+          ("file" find-file-at-point clmemo-read-file-name))
+@end verbatim
+
+
+@menu
+* tag with emacs-w3m::          Emacs-w3m とのコラボレーション
+@end menu
+
+@node tag with emacs-w3m,  , edit tag, edit tag
+@comment  node-name,  next,  previous,  up
+@subsubsection Emacs-w3m とのコラボレーション
+@pindex Emacs-w3m
+@cindex bookmark
+@cindex web browser
+@cindex browser, web
+
+@dfn{@uref{http://emacs-w3m.namazu.org/index-ja.html,Emacs-w3m}} とは、
+Emacs 上で動作するウェブ・ブラウザーである。
+Emacs-w3m には独自のブックマーク機能があるが、
+本節では、ブックマークを @value{clmemo}で取る方法を説明する。
+なお、Emacs-w3m のインストール方法および使用法は、Emacs-w3m のページを参照されたい。
+
+まず、次のコードを @file{.emacs} に入れる。
+
+@example
+@vindex clmemo-buffer-function-list
+@findex clmemo-tag-insert-url-from-w3m
+(setq clmemo-buffer-function-list
+      '(clmemo-tag-insert-url-from-w3m))
+@end example
+
+次に、Emacs-w3m でウェブ・ページをブラウズする。
+ここでは、clmemo.el を配布しているウェブページを覗いてみることにしよう。
+ウェブページのアドレスは @url{http://pop-club.hp.infoseek.co.jp/emacs/clmemo.html} である。
+さて、このページはよいページなので (もちろんだとも!)
+@value{clmemo}にブックマークとして保存したくなった。
+@kbd{C-x M} でメモを開こう。
+まず、title が聞かれる。
+@samp{URI} という名前にしよう。
+
+@example
+clmemo title: URI@kbd{@key{RET}}
+@end example
+
+@noindent
+普段ならここでメモの編集ができるようになるが、
+Emacs-w3m の中から clmemo を呼び出した時は少し違う。
+ウェブページの「タイトル」を入れるかどうか聞いてくる。
+
+@example
+Insert `Let's Try ChangeLog Memo' as title? (y or n)
+@end example
+
+@noindent
+ここは @samp{y} と答えよう。
+次にウェブページの URL を入れるかどうか聞いてくる。
+
+@example
+Insert URL? (y or n)
+@end example
+
+@noindent
+更に @samp{y} と答える。
+すると、次のようなメモができる
+
+@verbatim
+2002-01-15 (Tue)  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* URI: Let's Try ChangeLog Memq-!-
+	(url: http://pop-club.hp.infoseek.co.jp/emacs/clmemo.html)
+
+@end verbatim
+
+url タグの中で @kbd{C-c RET} とすると @command{browse-url-at-point} が呼ばれ、
+(おそらく Emacs-w3m が起ち上がって) ウェブページが見れる。
+
+@node other editor,  , edit memo, clmemo
+@comment  node-name,  next,  previous,  up
+@section 各エディタ上の clmemo
+
+@pindex vim
+@table @asis
+@item Vim
+@uref{http://apollo.u-gakugei.ac.jp/:yoshiki/clmemo/cltips.php, ChangeLogMemo Tips}
+
+@pindex Hidemaru
+@pindex TeraPad
+@pindex WZ-editor
+@item 秀丸
+@itemx TeraPad
+@itemx WZ エディタ
+@uref{http://blogger.main.jp/changelog/yayadoc/memolit.html, Windows ユーザーのための電子メモ術}
+
+@pindex xyzzy
+@item xyzzy
+@uref{http://www5e.biglobe.ne.jp/~fukafuka/xyzzy/script/scripts.html, changelogmemo}
+@end table
+
+@node clgrep, tools, clmemo, top
+@comment  node-name,  next,  previous,  up
+@chapter clgrep --- ChangeLog grep
+@pindex clgrep
+@pindex grep
+
+clgrep は @value{clmemo}専用の grep である。
+
+まず、@value{clmemo}は「アイテム」単位のメモである。
+そして、(我々がよく利用する) grep は「行」単位の検索ツールである。
+従って、grep は検索が成功しても「メモの一部」しか表示しない。
+一部で十分な場合もあろうが、「メモの全体」を俯瞰できると便利である。
+そこで、検索結果をアイテム単位で出力するように拡張された grep ツールが求められた。
+それが clgrep なのである。
+
+@findex occur
+次の出力は、@samp{M-x occur}@footnote{乱暴に言えば grep を EmacsLisp で実装したコマンド}を使い、
+私の @value{clmemo}で「弟子」を検索した結果である。
+
+@verbatim
+2 matches for "弟子" in buffer: clmemo.txt
+   4653:	* Quotation: 弟子が尋ねた。
+  17978:	が鼻祖となり、その弟子 S. I. ハヤカワらが世に広めた新しい言語学体系
+@end verbatim
+
+@noindent
+メモの一部分を抜き出しているため、何を書いてあるのかよく分からない。
+一方、clgrep を使って検索すると、
+次のように検索にヒットしたメモ全体が出力される。
+
+@verbatim
+2004-06-24 (Thu)  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* Quotation: 弟子が尋ねた。
+	「先生、私は先生がカッコをまるで魔術師のように
+	扱っているのを常々敬服しています。
+	どうすれば先生のようになれるのでしょうか?」
+	師「えっ? カッコ? あ、そうか。そんなものもあったな。いやあ、
+	すっかり忘れておったわ」
+	(author: 竹内 郁雄)
+	(cite: 竹内郁雄: やっぱり Lispだね, bit, Vol. 32, No. 5., 2000.) pp.33-39
+
+2003-01-13 (Mon)  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* 本: 「非 A の傀儡」読了。
+	The Pawns of NULL-A (1956) p.352
+	<author; A. E. van Vogt> A. E. ヴァン・ヴォークト
+	- 解説に「非 A」の簡単な紹介がある。
+	>>
+	「非 A」即ち「非アリストテレス」主義はアルフレッド・コージブスキー (1879-1950)
+	が鼻祖となり、その弟子 S. I. ハヤカワらが世に広めた新しい言語学体系
+	「一般意味論」の別称である。
+	<<
+
+@end verbatim
+
+
+@menu
+* blgrep::                      blgrep --- Block grep
+* clgrep usage::                clgrep の使い方
+* other clgrep::                clgrep の他の実装
+@end menu
+
+@node blgrep, clgrep usage, clgrep, clgrep
+@comment  node-name,  next,  previous,  up
+@section blgrep --- Block grep
+@pindex blgrep
+@cindex Block grep
+
+@dfn{clgrep.el} は Emacs 上で動作する clgrep で、
+blgrep パッケージに含まれている。
+@dfn{blgrep} パッケージは EmacsLisp で書かれた grep コマンド集で、
+以下のサイトからダウンロードできる。
+
+@itemize @bullet
+@item
+@uref{http://pop-club.hp.infoseek.co.jp/emacs/blgrep, blgrep のページ}
+
+@item
+@url{http://pop-club.hp.infoseek.co.jp/emacs/blgrep/blgrep-0.2.tar.gz}
+@end itemize
+
+
+@menu
+* install clgrep::              clgrep のインストール
+@end menu
+
+@node install clgrep,  , blgrep, blgrep
+@comment  node-name,  next,  previous,  up
+@unnumberedsubsec clgrep のインストール
+
+ダウンロード後の作業は、以下の通り。
+clgrep のコンパイルには clmemo.el が必要なので、
+clmemo.el を clgrep.el のあるディレクトリーにコピーする。
+
+@example
+$ tar xzvf blgrep-0.2.tar.gz
+$ cd blgrep-0.2
+$ cp path/to/clmemo.el ./
+$ make
+# make install
+@end example
+
+@noindent
+インストールに成功したら、
+@file{.emacs} に以下のコードを追加する。
+
+@verbatim
+;
+; clgrep
+;
+(autoload 'clgrep "clgrep" "ChangeLog grep." t)
+(autoload 'clgrep-item "clgrep" "ChangeLog grep." t)
+(autoload 'clgrep-item-header "clgrep" "ChangeLog grep for item header" t)
+(autoload 'clgrep-item-tag "clgrep" "ChangeLog grep for tag" t)
+(autoload 'clgrep-item-notag "clgrep" "ChangeLog grep for item except for tag" t)
+(autoload 'clgrep-item-nourl "clgrep" "ChangeLog grep item except for url" t)
+(autoload 'clgrep-entry "clgrep" "ChangeLog grep for entry" t)
+(autoload 'clgrep-entry-header "clgrep" "ChangeLog grep for entry header" t)
+(autoload 'clgrep-entry-no-entry-header "clgrep" "ChangeLog grep for entry except entry header" t)
+(autoload 'clgrep-entry-tag "clgrep" "ChangeLog grep for tag" t)
+(autoload 'clgrep-entry-notag "clgrep" "ChangeLog grep for tag" t)
+(autoload 'clgrep-entry-nourl "clgrep" "ChangeLog grep entry except for url" t)
+(add-hook 'clmemo-mode-hook
+          '(lambda () (define-key clmemo-mode-map "\C-c\C-g" 'clgrep)))
+@end verbatim
+
+
+@node clgrep usage, other clgrep, blgrep, clgrep
+@comment  node-name,  next,  previous,  up
+@section clgrep の使い方
+
+@value{clmemo}ファイルの中に入り、@kbd{M-x clgrep} を実行する。
+検索文字列を聞いてくるので答える。
+検索には正規表現が使える。
+ここではシンプルに「clmemo」を検索してみよう。
+
+@example
+Query: clmemo
+@end example
+
+@noindent
+検索結果はアイテムごとに日付の新しい順に並ぶ。
+
+@verbatim
+2004-09-17 (Fri)  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* Idea (idate): 日付入力用ツール。
+	clmemo.el で clmemo-inline-date-convert としているコードを改良。
+
+2004-09-06 (Mon)  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* pop-club (clmemo): clmemo-1.0rc3 リリース。
+
+以下続く...
+@end verbatim
+
+数引数を取ると (C-u M-x clgrep)、検索結果を逆順に表示する。
+
+@defun clgrep-item-header
+検索対象をアイテム・ヘッダー (アイテムの一行目) だけに絞って clgrep を実行する。
+@end defun
+
+@defun clgrep-item-tag
+検索対象をタダだけに絞って clgrep を実行する。
+@end defun
+
+@defun clgrep-item-notag
+検索対象からタグを除いて clgrep を実行する。
+@end defun
+
+@defun clgrep-item-nourl
+検索対象から URL と思われる文字列を除いて clgrep を実行する。
+@end defun
+
+@defun clgrep-entry-*
+出力単位を (アイテムから) エントリーにした clgrep。
+@end defun
+
+
+@menu
+* and::                         AND 検索
+* or::                          OR 検索
+@end menu
+
+@node and, or, clgrep usage, clgrep usage
+@comment  node-name,  next,  previous,  up
+@unnumberedsubsec AND 検索
+@cindex AND search
+@cindex search, AND
+@cindex Google
+
+clgrep は Google などの検索エンジンでよくみかける AND 検索をサポートしていない。
+「A」と「B」と「C」の AND 検索をする場合は、
+まず「A」で clgrep して、その結果に対して更に「B」で clgrep して、
+そして「C」について clgrep する。
+
+例えば、「指輪物語」と「本」 の両方にマッチするメモだけ表示させるには、
+最初に「指輪物語」で検索をかける。
+するとカーソルは *clgrep* バッファーに移動して検索結果が表示される。
+そこで更に @kbd{M-x clgrep} とするか @kbd{g} を押すと、
+*clgrep* バッファに対して検索がかけられる。
+検索文字に「本」を指定して、「指輪物語」と「本」の両方にマッチするメモだけを得る。
+
+@node or,  , and, clgrep usage
+@comment  node-name,  next,  previous,  up
+@unnumberedsubsec OR 検索
+@cindex OR search
+@cindex search, OR
+
+OR 検索は、正規表現を使う。
+
+例えば、@samp{foo} か @samp{bar} にマッチするメモを検索するには
+
+@example
+Query: foo\|bar
+@end example
+@noindent
+とする。ここで @samp{\|} が正規表現にあたり、
+@samp{\|} より前のものと後のものにマッチする。
+つまり @samp{\|} の前の @samp{foo} と後の @samp{bar} にマッチするのである。
+
+@cindex Regular Expressions
+正規表現の詳しい説明は @xref{Regexps, Syntax of Regular Expressions, Syntax of Regular Expressions, emacs, GNU Emacs Reference Manual}.
+
+
+@node other clgrep,  , clgrep usage, clgrep
+@comment  node-name,  next,  previous,  up
+@section clgrep の他の実装
+
+本節では、blgrep 以外の clgrep を紹介する。
+
+なお、コマンドラインから呼び出すタイプの clgrep は
+(clgrep に限らず、普通の grep でもだが)
+ファイルの文字コードとプロセスの文字コードが合っている必要がある。
+この問題は、特に日本語を検索するときに重要になる。
+
+@cindex Shift_JIS
+@cindex EUC-JP
+@cindex ISO-2022-JP
+@cindex UTF-8
+例えば、もし @value{clmemo}ファイルを Shift_JIS で書いていたとして、
+clgrep をコマンドラインから実行したらどうなるか。
+あなたの端末が Shift_JIS ならよいが、
+それ以外 (ex. EUC-JP, ISO-2022-JP, UTF-8) だったなら文字コードが違うので、
+検索に失敗してしまう。
+そういう場合は、ファイルを端末の文字コードに変換しておくとよい。
+
+@menu
+* clgrep in Ruby::              clgrep --- Ruby での実装
+* clgrep in Perl::              pickup --- Perl での実装
+@end menu
+
+@node clgrep in Ruby, clgrep in Perl, other clgrep, other clgrep
+@comment  node-name,  next,  previous,  up
+@subsection clgrep --- Ruby での実装
+@pindex Ruby
+@cindex clgrep, Ruby
+
+clgrep の Ruby による実装。
+
+@table @asis
+@item コマンド名
+@pindex clgrep
+clgrep
+
+@item 作者
+高林哲さん
+
+@item ウェブページ
+@uref{http://namazu.org/~satoru/unimag/, Unix Magazine連載: 横着プログラミング}
+@end table
+
+clgrep の最初の実装。
+
+以下の機能をサポートしている。
+
+@itemize @bullet
+@item
+検索結果の逆順表示
+
+@item
+大文字・小文字の無視
+@end itemize
+
+
+@node clgrep in Perl,  , clgrep in Ruby, other clgrep
+@comment  node-name,  next,  previous,  up
+@subsection pickup --- Perl での実装
+@pindex Perl
+@cindex clgrep, Perl
+
+clgrep の Perl による実装。
+
+@table @asis
+@item コマンド名
+@pindex pickup
+pickup
+
+@item 作者
+藤部修平さん
+
+@item ウェブページ
+@uref{http://shika.aist-nara.ac.jp/member/shuhei-f/research/myres/pickup.html, メモの活用}
+@end table
+
+以下の機能をサポートしている。
+
+@itemize @bullet
+@item
+検索結果の逆順表示
+
+@item
+検索文字列の強調表示
+
+@item
+アイテムごとの出力一時停止
+@end itemize
+
+@node tools, References, clgrep, top
+@comment  node-name,  next,  previous,  up
+@chapter 関連ツール
+
+本章では、@value{clmemo}関連ツールの紹介をする。
+
+@menu
+* chalow::                      chalow --- CHAngeLog On the Web
+* iimage::                      iimage --- inline image
+@end menu
+
+@node chalow, iimage, tools, tools
+@comment  node-name,  next,  previous,  up
+@section Chalow --- CHAngeLog On the Web
+@pindex chalow
+@cindex ChangeLog on the Web
+@pindex Perl
+
+@dfn{chalow} は @value{clmemo} を @abbr{HTML} に変換する Perl スクリプトである。
+
+@table @asis
+@item 作者
+山下達雄
+
+@item ウェブページ
+@uref{http://nais.to/~yto/tools/chalow/}
+@end table
+
+手元に @file{clmemo.txt} という名前の @value{clmemo} ファイルがあるとして
+これを @abbr{HTML} に変換するには
+
+@example
+$ chalow -o sample clmemo.txt
+@end example
+
+@noindent
+とする。
+ここで @samp{-o sample} は、
+@file{sample} というディレクトリーの中にできた @abbr{HTML} ファイルを入れる、
+という意味である。
+@file{sample/index.html} ファイルをウェブ・ブラウザーで開いてみよう。
+あなたの @value{clmemo}ファイルが @abbr{HTML} になっているのが見れるはずだ。
+
+詳しくは、chalow 付属の @file{README} をお読み頂きたい。
+
+
+@node iimage,  , chalow, tools
+@comment  node-name,  next,  previous,  up
+@section iimage.el
+@pindex iimage
+@cindex Inline image
+@cindex image, inline
+
+@dfn{iimage} は Emacs 上で画像を表示するマイナー・モードである。
+下にあるような「画像へのパス」を、実際の画像へと置き換えてくれる。
+
+@verbatim
+  file://foo.png
+  `file://foo.png'
+  [[foo.gif]]
+  <foo.png>
+  `foo.JPG'
+@end verbatim
+@noindent
+
+@table @asis
+@item 作者
+小関吉則
+
+@item ウェブページ
+@uref{http://www.netlaputa.ne.jp/~kose/Emacs/iimage.html} (英語)
+@uref{http://www.netlaputa.ne.jp/~kose/Emacs/200402.html} (日本語)
+@end table
+
+作者のページから @file{iimage.el} をダウンロードして
+@var{load-path} に置き、@file{.emacs} に以下の内容を追加する。
+
+@verbatim
+(autoload 'iimage-mode "iimage" "Support Inline image minor mode." t)
+(autoload 'turn-on-iimage-mode "iimage" "Turn on Inline image minor mode." t)
+@end verbatim
+
+@noindent
+@findex iimage-mode
+@value{clmemo}に入って、@kbd{M-x iimage-mode} とすると画像が表示される。
+もう一度 @kbd{M-x iimage-mode} すると画像は非表示になる。
+
+デフォールトの設定では、画像をカレント・ディレクトリーだけからしか探さない。
+画像を他のディレクトリーに入れて管理している場合は、
+@samp{image-dir/foo.jpg} というように、ディレクトリーも指定しなければならない。
+しかし、この方法はいかにも患わしいし、
+ディレクトリーの名前を変えた時の処理が大変である。
+変数 @var{iimage-mode-image-search-path} にディレクトリー名を指定する事で、
+ディレクトリー名を省略できるようになる。
+
+@vindex iimage-mode-image-search-path
+@verbatim
+(setq iimage-mode-image-search-path '("image-dir"))
+@end verbatim
+
+@noindent
+@findex turn-on-iimage-mode
+clgrep の検索時に iimage を自動 ON するには、次の設定を @file{.emacs} に加える。
+@verbatim
+(add-hook 'clgrep-mode-hook 'turn-on-iimage-mode)
+@end verbatim
+
+
+@node References, other changelog format, tools, top
+@comment  node-name,  next,  previous,  up
+@unnumbered 参考文献およびウェブページ
+
+@menu
+* book::                        参考文献
+* web page::                    参考ウェブページ
+@end menu
+
+@node book, web page, References, References
+@comment  node-name,  next,  previous,  up
+@unnumberedsec 参考文献
+
+@table @asis
+@item @ref{Change Log, Change Logs, Change Logs,emacs,GNU Emacs Reference Manual}
+GNU 形式の ChangeLog の説明。
+@value{clmemo}の用語も、このマニュアルに則っている。
+
+@item @cite{「超」整理法} [中公新書 1159]
+副題「情報検索と発想の新システム」。
+「ポケット一つの原則」や「押し出しファイリング」を世に広めたベストセラー。
+タイム・マネージメントを扱った続刊 @cite{続「超」整理法・時間編}、
+捨てる技術を扱った続々刊 @cite{「超」整理法 3} あり。
+
+@item @cite{横着プログラミング 第 1 回: UNIX のメモ技術} [Unix Magazine 2002/01]
+連載 @cite{横着プログラミング} では、
+Namazu や migemo で有名な高林哲氏が、
+横着した Unix ライフを送るためのツールを紹介した。
+@value{clmemo}は、その第 1 回を飾った。
+
+@item @cite{横着プログラミング 第 12 回:} [Unix Magazine 2002/12]
+連載 @cite{横着プログラミング} は、Unix Magazine に一年間続いた。
+最終号は、締め括りとして連載分を振り返る形を取った。
+第 1 回で取り上げた @value{clmemo}については、Emacs 版 clgrep が紹介された。
+
+@item @cite{書き散らかし指向メモツール howm} [UNIX USER 2004/02] pp.50--63
+@pindex howm
+@pindex vim
+@cindex wiki
+副題 「一人お手軽 Wiki もどき」。
+@value{clmemo}とは一味違うメモツール howm の解説。
+2 部構成で、第 1 部は howm の創案者、
+平岡和幸氏による howm の概略と Emacs との連携について。
+第 2 部は、七尾功一氏による vim 用 howm-mode.vim の解説。
+
+@item @cite{chalow を用いた ChangeLog 電子メモ術の極意} [UNIX USER 2004/08] pp.54--61
+@pindex chalow
+@value{clmemo}の創案者、山下達雄氏による chalow の解説。
+@end table
+
+
+@node web page,  , book, References
+@comment  node-name,  next,  previous,  up
+@unnumberedsec 参考ウェブページ
+
+@table @uref
+@item http://www.nais.to/~yto/, たつをのホームページ
+@cindex HTML
+@cindex chalow
+@value{clmemo}の創案者、山下達雄氏のウェブページ。
+@value{clmemo}から @acronym{HTML} を作成するツール chalow も公開されている。
+
+@item http://namazu.org/~satoru/unimag/, Unix Magazine 連載: 横着プログラミング
+高林氏が Unix Magazine 誌に連載した横着プログラミングの記事が公開されている。
+連載の栄えある第 1 回こそ、@value{clmemo} の特集であった。
+@end table
+
+@node other changelog format, Variable Index, References, top
+@comment  node-name,  next,  previous,  up
+@appendix 他の ChangeLog 形式
+
+
+@menu
+* old format::
+* gnu arch format::
+@end menu
+
+@node old format, gnu arch format, other changelog format, other changelog format
+@comment  node-name,  next,  previous,  up
+@unnumberedsec 古い ChangeLog 形式
+@cindex old-style
+
+バージョン 20.1 前の Emacs では、日付情報に違うフォーマットを使っていた。
+
+@example
+(20.1 前): Fri May 25 11:23:23 1993 Richard Stallman  <rms@@gnu.org>
+(20.1 後): 1993-05-25  Richard Stallman  <rms@@gnu.org>
+@end example
+
+@findex change-log-redate
+旧形式のタイム・フォーマットから現在のフォーマットに変換するには、
+旧形式のタイム・フォーマットを使っている ChangeLog ファイルに入り、
+@samp{M-x change-log-redate} とすればよい。
+これは Emacs の標準関数である。
+
+@pindex Ruby
+旧形式のタイム・フォーマットは、
+Ruby の ChangeLog などで、まだ見る事ができる。
+
+
+@node gnu arch format,  , old format, other changelog format
+@comment  node-name,  next,  previous,  up
+@unnumberedsec GNU Arch の形式
+@pindex GNU Arch
+@pindex Arch, GNU
+
+バージョン管理システムの一つである 
+@uref{http://www.gnu.org/software/gnu-arch/index.jp.html, GNU Arch} では、
+一風変わった ChangeLog 形式を用意している。
+以下に示すのは、GNU Arch 1.2 に附属のマニュアルに載っている ChangeLog の例から
+一つのエントリーを抜粋したものである。
+
+@verbatim
+2003-01-30 GMT  Tom (testing) Lord <lord@@emf.net>       patch-2
+
+    Summary:
+      merge from mainline sources
+    Revision:
+      hello-world--candice--0.1--patch-2
+
+    Patches applied:
+
+      * lord@@emf.net--2003-example/hello-world--mainline--0.1--patch-3
+         added copywrong statements
+
+      * lord@@emf.net--2003-example/hello-world--mainline--0.1--patch-2
+         commented return from main
+
+    new files:
+     @{arch@}/ [...] /hello-world--mainline--0.1 [...] /patch-2
+     @{arch@}/ [...] /hello-world--mainline--0.1 [...] /patch-3
+
+    modified files:
+     hw.c main.c
+
+    new patches:
+     lord@@emf.net--2003-example/hello-world--mainline--0.1--patch-2
+     lord@@emf.net--2003-example/hello-world--mainline--0.1--patch-3
+
+@end verbatim
+
+ChangeLog から、「アイテム」がなくなってしまっている。
+GNU Arch では GNU 形式の ChangeLog も併用できるので、
+私は (Arch 上では) 両方の ChangeLog 形式を使っている。
+
+@c INDICES --------------------------------------------------------------------------------
+@node Variable Index, Program Index, other changelog format, top
+@comment  node-name,  next,  previous,  up
+@unnumbered 変数索引
+
+@printindex vr
+
+@node Program Index, Concept Index, Variable Index, top
+@comment  node-name,  next,  previous,  up
+@unnumbered 関数・キー索引
+
+@printindex fn
+
+@node Concept Index,  , Program Index, top
+@comment  node-name,  next,  previous,  up
+@unnumbered 概念・プログラム索引
+
+@printindex cp
+
+@ifset website
+@html
+<address>
+ Masayuki Ataka / 安宅 正之<br />
+
+ e-mail: <a href="mailto:ataka@@milk.freemail.ne.jp">ataka@@milk.freemail.ne.jp</a><br />
+ <a href="http://openlab.ring.gr.jp/tcode/" hreflang="ja"><img class="logo" src="http://openlab.ring.gr.jp/tcode/resources/data/logo/input.gif" alt="Input with T-Code" height="47" width="100" /></a>
+ <img id="counter" src="/cgi-bin/Count.cgi?df=pop-club.cl" alt="Counter" />
+</address>
+@end html
+@end ifset
+
+@bye
+Local Variables:
+coding: euc-jp
+End:
