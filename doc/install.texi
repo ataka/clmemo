@@ -1,18 +1,18 @@
 @ifset rawfile
-@section clmemo д╬едеєе╣е╚б╝еы
+@section clmemo уБоуВдуГ│уВ╣уГИуГ╝уГл
 @end ifset
 
 @ifclear rawfile
 @node install clmemo, input memo, clmemo, clmemo
 @comment  node-name,  next,  previous,  up
-@section clmemo д╬едеєе╣е╚б╝еы
+@section clmemo уБоуВдуГ│уВ╣уГИуГ╝уГл
 @end ifclear
 
 @ifset rawfile
-@set clmemo  ChangeLog есет
+@set clmemo  ChangeLog уГбуГв
 @end ifset
 
-║╟┐╖╚╟д╬ clmemo.el д╧░╩▓╝д╬╛ь╜ъд╦двдыбг
+цЬАцЦ░чЙИуБо clmemo.el уБпф╗еф╕ЛуБоха┤цЙАуБлуБВуВЛуАВ
 
 @itemize @bullet
 @item
@@ -20,8 +20,8 @@
 @end itemize
 
 @noindent
-е└ежеєеэб╝е╔╕хд╬║ю╢╚д╧бв░╩▓╝д╬─╠дъбг
-make ┴░д╦╔м═╫д╦▒■д╕д╞бв@file{Makefile} дЄ╩╘╜╕д╣дыбг
+уГАуВжуГ│уГнуГ╝уГЙх╛МуБоф╜ЬценуБпуАБф╗еф╕ЛуБощАЪуВКуАВ
+make хЙНуБлх┐ЕшжБуБлх┐ЬуБШуБжуАБ@file{Makefile} уВТч╖ищЫЖуБЩуВЛуАВ
 
 @verbatim
 $ tar xzvf clmemo-1.0.tar.gz
@@ -30,29 +30,30 @@ $ make
 # make install
 @end verbatim
 
-┬│д▒д╞бв@file{.emacs} д╦░╩▓╝д╬е│б╝е╔дЄ─╔▓├д╣дыбг
+ч╢ЪуБСуБжуАБ@file{.emacs} уБлф╗еф╕ЛуБоуВ│уГ╝уГЙуВТш┐╜хКауБЩуВЛуАВ
 
 @vindex clmemo-file-name
 @lisp
 (autoload 'clmemo "clmemo" "ChangeLog memo mode." t)
-;; двд╩д┐д╬ ChangeLog есете╒ебедеыд╪д╬е╤е╣
+;; уБВуБкуБЯуБо ChangeLog уГбуГвуГХуВбуВдуГлуБ╕уБоуГСуВ╣
 (setq clmemo-file-name "~/personal/memo/clmemo.txt")
-;; ╣еднд╩енб╝д╪е╨едеєе╔
+;; хе╜уБНуБкуВнуГ╝уБ╕уГРуВдуГ│уГЙ
 (global-set-key "\C-xM" 'clmemo)
 @end lisp
 
 @noindent
-д│д│д╟д╧бв@value{clmemo} дм @file{~/personal/memo/clmemo.txt} д╦двдыд╚д╖д╞дддыбг
-д▐д┐бв┤╪┐Ї @samp{clmemo} дЄ @kbd{C-x M} д╦е╨едеєе╔д╖д┐бг
-░╩╣▀д╬└т╠└д╧бв╛хд╬└▀─ъд╦╜╛дждтд╬д╚д╣дыбг
-дтд╖бв░удж└▀─ъдЄ╗▄д╖д┐╛ь╣чд╧бв┼м╡╣╞╔д▀┬╪дид╞─║днд┐ддбг
+уБУуБУуБзуБпуАБ@value{clmemo} уБМ @file{~/personal/memo/clmemo.txt} уБлуБВуВЛуБиуБЧуБжуБДуВЛуАВ
+уБ╛уБЯуАБщЦвцХ░ @samp{clmemo} уВТ @kbd{C-x M} уБлуГРуВдуГ│уГЙуБЧуБЯуАВ
+ф╗ещЩНуБошкмцШОуБпуАБф╕КуБошинхоЪуБлх╛УуБЖуВВуБоуБиуБЩуВЛуАВ
+уВВуБЧуАБщБХуБЖшинхоЪуВТцЦ╜уБЧуБЯха┤хРИуБпуАБщБйхоЬшкнуБ┐цЫ┐уБИуБжщаВуБНуБЯуБДуАВ
 
-║╟╕хд╦бв@value{clmemo}е╒ебедеыд╬╦Ў╚°д╦░╩▓╝д╬е│б╝е╔дЄ─╔▓├д╣дыбг
+цЬАх╛МуБлуАБ@value{clmemo}уГХуВбуВдуГлуБоцЬлх░╛уБлф╗еф╕ЛуБоуВ│уГ╝уГЙуВТш┐╜хКауБЩуВЛуАВ
 
 @verbatim
 ^L
 Local Variables:
 mode: change-log
+coding: utf-8
 clmemo-mode: t
 End:
 @end verbatim
