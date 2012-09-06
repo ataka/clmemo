@@ -2,7 +2,7 @@
 # clmemo/doc Makefile
 #
 
-## Copyright (C) 2005  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+## Copyright (C) 2005  Masayuki Ataka  <masayuki.ataka@gmail.com>
 
 SRC       = clmemo
 PART      = install.texi news.texi
