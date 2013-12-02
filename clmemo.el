@@ -1,8 +1,11 @@
-;;; clmemo.el --- Change Log MEMO -*-emacs-lisp-*-
+;;; clmemo.el --- Change Log MEMO
+;; -*- Mode: Emacs-Lisp -*-
 
 ;; Copyright (c) 2002, 2003, 2004, 2005  Masayuki Ataka <masayuki.ataka@gmail.com>
 
 ;; Author: Masayuki Ataka <masayuki.ataka@gmail.com>
+;; URL: https://github.com/ataka/clmemo
+;; Version: 1.0.0
 ;; Keywords: convenience
 
 ;; This file is not part of GNU Emacs.
