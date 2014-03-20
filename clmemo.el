@@ -409,10 +409,10 @@ If optional argument TAIL is non-nil, return the deleted one."
 (defun clmemo-insert-region (buf)
   "Insert the text between region to clmemo if the region is available."
   (when (and (bufferp buf)
-	     (save-excursion (set-buffer buf) (clmemo-region-exists-p)))
-    (let ((text (save-excursion (set-buffer buf)
-				(buffer-substring-no-properties
-				 (region-beginning) (region-end))))
+	     (with-current-buffer buf (clmemo-region-exists-p)))
+    (let ((text (with-current-buffer buf
+		  (buffer-substring-no-properties
+		   (region-beginning) (region-end))))
 	  beg end)
       (save-excursion
 	(insert "\n")
@@ -423,12 +423,10 @@ If optional argument TAIL is non-nil, return the deleted one."
 (defun clmemo-tag-insert-url-from-w3m (buf)
   "Insert w3m's title and url to clmemo if the buffer BUF is under emacs-w3m."
   (when (and (bufferp buf) (featurep 'w3m)
-	     (eq 'w3m-mode (save-excursion
-				 (set-buffer buf)
-				 (symbol-value 'major-mode))))
+	     (eq 'w3m-mode (with-current-buffer buf
+			     (symbol-value 'major-mode))))
     (let (url title exist-p tag (c ?i) blog tmp)
-      (save-excursion
-	(set-buffer buf)
+      (with-current-buffer buf
 	(setq url (if (boundp 'w3m-current-url) w3m-current-url)
 	      title (if (boundp 'w3m-current-title) w3m-current-title)
 	      tag (concat (format (car clmemo-tag-format) "url") url ")")))
@@ -741,7 +739,7 @@ With argument, repeats or can move backward if negative."
   (unless arg (setq arg 1))
   (if (< arg 0)
       (clmemo-backward-year (- arg))
-    (when (interactive-p) (push-mark))
+    (when (called-interactively-p 'interactive) (push-mark))
     (let ((year (nth 5 (clmemo-get-date)))
 	  (pos (point)))
       (setq year (+ year arg))
@@ -749,7 +747,7 @@ With argument, repeats or can move backward if negative."
       (if (re-search-forward (format "^%d-" year) nil t)
 	  (beginning-of-line)
 	(goto-char pos)
-	(when (interactive-p) (pop-mark))))))
+	(when (called-interactively-p 'interactive) (pop-mark))))))
 
 (defun clmemo-backward-year (&optional arg)
   "Move backward year.
@@ -758,12 +756,12 @@ With argument, repeats or can move forward if negative."
   (unless arg (setq arg 1))
   (if (< arg 1)
       (clmemo-forward-year (- arg))
-    (when (interactive-p) (push-mark))
+    (when (called-interactively-p 'interactive) (push-mark))
     (let ((year (nth 5 (clmemo-get-date))))
       (setq year (- year arg))
       (if (re-search-forward (format "^%d-" year) nil t)
 	  (beginning-of-line)
-	(when (interactive-p) (pop-mark))))))
+	(when (called-interactively-p 'interactive) (pop-mark))))))
 
 (defun clmemo-next-year (&optional arg)
   "Move to the date after ARG's year.
@@ -772,7 +770,7 @@ With argument, repeats or can move backward if negative."
   (unless arg (setq arg 1))
   (if (< arg 0)
       (clmemo-backward-year (- arg))
-    (when (interactive-p) (push-mark))
+    (when (called-interactively-p 'interactive) (push-mark))
     (let ((date (clmemo-get-date))
 	  (pos (point))
 	  year month day regexp)
@@ -786,7 +784,7 @@ With argument, repeats or can move backward if negative."
       (if (re-search-forward regexp nil t)
 	  (beginning-of-line)
 	(goto-char pos)
-	(when (interactive-p) (pop-mark))))))
+	(when (called-interactively-p 'interactive) (pop-mark))))))
 
 (defun clmemo-previous-year (&optional arg)
   "Move to the date before ARG's year.
@@ -795,7 +793,7 @@ With argument, repeats or can move forward if negative."
   (unless arg (setq arg 1))
   (if (< arg 1)
       (clmemo-forward-year (- arg))
-    (when (interactive-p) (push-mark))
+    (when (called-interactively-p 'interactive) (push-mark))
     (let ((date (clmemo-get-date))
 	  year month day)
       (setq year (- (nth 5 date) arg)
@@ -803,7 +801,7 @@ With argument, repeats or can move forward if negative."
 	    day (nth 3 date))
       (if (re-search-forward (format "^%d-%02d-%02d" year month day) nil t)
 	  (beginning-of-line)
-	(when (interactive-p) (pop-mark))))))
+	(when (called-interactively-p 'interactive) (pop-mark))))))
 
 (defun clmemo-forward-month (&optional arg)
   "Move forward month.
@@ -812,7 +810,7 @@ With argument, repeats or can move backward if negative."
   (unless arg (setq arg 1))
   (if (< arg 0)
       (clmemo-backward-month (- arg))
-    (when (interactive-p) (push-mark))
+    (when (called-interactively-p 'interactive) (push-mark))
     (let ((time (clmemo-get-date))
 	  (pos (point))
 	  year month)
@@ -826,7 +824,7 @@ With argument, repeats or can move backward if negative."
       (if (re-search-forward (format "^%d-%02d-" year month) nil t)
 	  (beginning-of-line)
 	(goto-char pos)
-	(when (interactive-p) (pop-mark))))))
+	(when (called-interactively-p 'interactive) (pop-mark))))))
 
 (defun clmemo-backward-month (&optional arg)
   "Move backward month.
@@ -835,7 +833,7 @@ With argument, repeats or can move forward if negative."
   (unless arg (setq arg 1))
   (if (< arg 1)
       (clmemo-forward-month (- arg))
-    (when (interactive-p) (push-mark))
+    (when (called-interactively-p 'interactive) (push-mark))
     (let ((time (clmemo-get-date))
 	  year month)
       (setq year (nth 5 time)
@@ -847,7 +845,7 @@ With argument, repeats or can move forward if negative."
 	      month (- 12 (% arg 12))))
       (if (re-search-forward (format "^%d-%02d-" year month) nil t)
 	  (beginning-of-line)
-	(when (interactive-p) (pop-mark))))))
+	(when (called-interactively-p 'interactive) (pop-mark))))))
 
 (defun clmemo-next-month (&optional arg)
   "Move to the date after ARG's month.
@@ -856,7 +854,7 @@ With argument, repeats or can move backward if negative."
   (unless arg (setq arg 1))
   (if (< arg 0)
       (clmemo-backward-month (- arg))
-    (when (interactive-p) (push-mark))
+    (when (called-interactively-p 'interactive) (push-mark))
     (let ((date (clmemo-get-date))
 	  (pos (point))
 	  year month day regexp)
@@ -874,7 +872,7 @@ With argument, repeats or can move backward if negative."
       (if (re-search-forward regexp nil t)
 	  (beginning-of-line)
 	(goto-char pos)
-	(when (interactive-p) (pop-mark))))))
+	(when (called-interactively-p 'interactive) (pop-mark))))))
 
 (defun clmemo-previous-month (&optional arg)
   "Move to the date before ARG's month.
@@ -883,7 +881,7 @@ With argument, repeats or can move forward if negative."
   (unless arg (setq arg 1))
   (if (< arg 1)
       (clmemo-forward-month (- arg))
-    (when (interactive-p) (push-mark))
+    (when (called-interactively-p 'interactive) (push-mark))
     (let ((date (clmemo-get-date))
 	  year month day)
       (setq year (nth 5 date)
@@ -896,7 +894,7 @@ With argument, repeats or can move forward if negative."
 	      month (- 12 (% arg 12))))
       (if (re-search-forward (format "^%d-%02d-%02d" year month day) nil t)
 	  (beginning-of-line)
-	(when (interactive-p) (pop-mark))))))
+	(when (called-interactively-p 'interactive) (pop-mark))))))
 
 (defun clmemo-mark-year (&optional arg)
   "Put point at end of this year, mark at beginning.
@@ -1473,6 +1471,10 @@ See `format-time-string' for the description of constructs.")
     (clmemo-list-create-buffer list "link"))
   (clmemo-list-mode))
 
+(defvar clmemo-calc-rank-function
+  #'(lambda (rank time-diff)
+      (* 100 (/ rank (log time-diff)))))
+
 (defun clmemo-list-rank ()
   (interactive)
   (let ((now (current-time))
@@ -1491,10 +1493,6 @@ See `format-time-string' for the description of constructs.")
     (setq list (mapcar (lambda (cc) (format "%4.2f  %s" (car cc) (cdr cc))) alist))
     (clmemo-list-create-buffer list "rank"))
   (clmemo-list-mode))
-
-(defvar clmemo-calc-rank-function
-  #'(lambda (rank time-diff)
-      (* 100 (/ rank (log time-diff)))))
 
 (defun clmemo-list-rank-date ()
   (interactive)
