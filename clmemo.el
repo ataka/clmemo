@@ -1,7 +1,7 @@
 ;;; clmemo.el --- Change Log MEMO
 ;; -*- Mode: Emacs-Lisp -*-
 
-;; Copyright (c) 2002, 2003, 2004, 2005  Masayuki Ataka <masayuki.ataka@gmail.com>
+;; Copyright (c) 2002, 2003, 2004, 2005, 2014  Masayuki Ataka <masayuki.ataka@gmail.com>
 
 ;; Author: Masayuki Ataka <masayuki.ataka@gmail.com>
 ;; URL: https://github.com/ataka/clmemo
@@ -66,7 +66,7 @@
 ;;
 ;; * ChangeLog MEMO
 ;;
-;;  - http://namazu.org/~satoru/unimag/1/ (Japanese)
+;;  - http://0xcc.net/unimag/1/ (Japanese)
 ;;
 
 ;; [Acknowledgement]
@@ -81,7 +81,7 @@
 ;;
 ;; The latest clmemo.el is available at:
 ;;
-;;   http://isweb22.infoseek.co.jp/computer/pop-club/emacs/changelog.html
+;;   https://github.com/ataka/clmemo
 ;;
 
 ;; Put this in your .emacs file:
@@ -135,15 +135,15 @@
 ;;   A grep command specialized for ChangeLog Memo.
 ;;
 ;;   - clgrep (Ruby)
-;;       http://namazu.org/~satoru/unimag/1/
+;;       http://0xcc.net/unimag/1/
 ;;   - blgrep (EmacsLisp)
-;;       http://isweb22.infoseek.co.jp/computer/pop-club/emacs/blgrep/
+;;       https://github.com/ataka/blgrep
 ;;
 ;; * chalow -- CHAnge Log On the Web
 ;;   A ChangeLog Memo to HTML converter.
 ;;
 ;;   - chalow (Perl)
-;;       http://nais.to/~yto/tools/chalow/
+;;       http://chalow.org/
 
 
 ;;; Code:
