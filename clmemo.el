@@ -118,7 +118,7 @@
 ;;   Local Variables:
 ;;   mode: change-log
 ;;   clmemo-mode: t
-;;   coding: iso-2022-jp
+;;   coding: utf-8
 ;;   End:
 ;;
 
@@ -1653,4 +1653,5 @@ See also function `clmemo-format-header-with-weekday'."
 
 ;; Local Variables:
 ;; fill-column: 72
+;; coding: utf-8
 ;; End:
