@@ -126,7 +126,7 @@
 ;;
 ;; `M-x clmemo' directly open ChangeLog MEMO file in ChangeLog MEMO
 ;; mode.  Select your favourite title with completion.  User option
-;; `clmemo-title-list' is used for complition.
+;; `clmemo-title-list' is used for completion.
 ;;
 
 ;; [Related Softwares]
@@ -188,7 +188,7 @@ You can set the alias of the title: (alias . title)")
   "*Car is left string of subtitle punctuation char; Cdr is right.")
 
 (defvar clmemo-title-format-function nil
-  "*Function for formating the title.
+  "*Function for formatting the title.
 The function should take one arg and return the formated string.")
 
 (defvar clmemo-buffer-function-list nil
@@ -341,7 +341,7 @@ If optional argument NOT-TODAY is non-nil, insert title the date at point."
       (when (looking-at "^\t\\* .+: ")
 	(replace-match "\t* "))
       (end-of-line))
-    ;; Insert item-heading separater after title.
+    ;; Insert item-heading separator after title.
     (unless (string= "" title)
       (insert title ": "))
     (clmemo-mapc (lambda (func) (funcall func buf)) clmemo-buffer-function-list)
@@ -649,7 +649,7 @@ If called with prefix arg, ask quote string."
   (cond
    ((boundp 'mark-active) mark-active)		  ;For Emacs
    ((fboundp 'region-exists-p) (region-exists-p)) ;For XEmacs
-   (t (error "No funcntion for checking region"))))
+   (t (error "No function for checking region"))))
 
 ;
 ; Schedule
@@ -727,7 +727,7 @@ If optional argument TODAY is non-nil, return the list of today."
 	  (skip-chars-forward "-" end)
 	  (and (re-search-forward "[0-9]+" end t)
 	       (setq day (string-to-number (match-string 0)))))
-	;; function calendar-day-of-week is defined in calernadar.
+	;; function calendar-day-of-week is defined in calendar.
 	(setq dow (calendar-day-of-week `(,month ,day ,year)))))
     (list 0 0 0 day month year dow)))
 
@@ -1156,7 +1156,7 @@ If optional argument TODAY is non-nil, change the origin of date today."
       (if (> year 100)
 	  (setq idate (format clmemo-inline-date-format
 			      (format "%04d-%02d-%02d" year month day)))
-	;; System recorgnize 1970~2037
+	;; System recognize 1970~2037
 	(if (< 50 year)
 	    (setq year (+ 1900 year))
 	  (setq year (+ 2000 year)))))
