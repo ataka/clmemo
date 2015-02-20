@@ -148,7 +148,6 @@
 
 ;;; Code:
 
-(provide 'clmemo)
 (require 'add-log)
 (eval-and-compile (require 'calendar) (require 'parse-time))
 (eval-when-compile (require 'time-date))
@@ -1648,6 +1647,9 @@ See also function `clmemo-format-header-with-weekday'."
      (t
       (let ((current-prefix-arg nil))
 	(call-interactively 'occur))))))
+
+
+(provide 'clmemo)
 
 ;;; clmemo.el ends here
 
