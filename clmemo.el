@@ -1581,7 +1581,7 @@ See `format-time-string' for the description of constructs.")
 ;;
 ;; Header with/out weekday
 ;;
-(defun add-log-iso8601-time-string-with-weekday ()
+(defun add-log-iso8601-time-string-with-weekday (&optional time zone)
   ;; Code contributed from Satoru Takabayashi <satoru@namazu.org>
   (let ((system-time-locale "C"))
     (concat (add-log-iso8601-time-string)
