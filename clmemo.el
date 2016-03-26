@@ -1,7 +1,7 @@
 ;;; clmemo.el --- Change Log MEMO
 ;; -*- Mode: Emacs-Lisp -*-
 
-;; Copyright (c) 2002, 2003, 2004, 2005, 2014  Masayuki Ataka <masayuki.ataka@gmail.com>
+;; Copyright (c) 2002, 2003, 2004, 2005, 2014, 2016  Masayuki Ataka <masayuki.ataka@gmail.com>
 
 ;; Author: Masayuki Ataka <masayuki.ataka@gmail.com>
 ;; URL: https://github.com/ataka/clmemo
