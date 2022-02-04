@@ -270,10 +270,10 @@ You can set functions when insert or jump: (TAG JUMP-FUNCTION INSERT-FUNCTION)."
   '(;;
     ;; Date lines, with weekday
     ("^\\sw.........[0-9:+ ]*\\((...)\\)?"
-     (0 'change-log-date-face)
+     (0 'change-log-date)
      ("\\([^<(]+?\\)[ \t]*[(<]\\([A-Za-z0-9_.-]+@[A-Za-z0-9_.-]+\\)[>)]" nil nil
-      (1 'change-log-name-face)
-      (2 'change-log-email-face)))
+      (1 'change-log-name)
+      (2 'change-log-email)))
     ;;
     ;; Date
     ("\\[[0-9-]+\\]" (0 'clmemo-inline-date-face)))
