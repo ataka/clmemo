@@ -604,12 +604,8 @@ With argument, repeats or can move forward if negative."
 Not support `yank-pop'.
 Use function `clmemo-indent-region' after `yank' and `yank-pop'."
   (interactive "P*")
-  (if (fboundp 'looking-back) ; looking-back is defined on 2003-05-31.
-      (and (looking-back "^\t[ \t]*") (replace-match ""))
-    (save-excursion
-      (skip-chars-backward " \t")
-      (when (and (bolp) (looking-at "\t[ \t]*"))
-	(replace-match ""))))
+  (when (looking-back "^\t[ \t]*" nil)
+    (replace-match ""))
   (let ((beg (point))
         (end (progn (yank) (point))))
     (clmemo-indent-region beg end)))
@@ -946,8 +942,8 @@ Use the command `clmemo-inline-date-mode' to change this variable.")
 
 (defun clmemo-inline-date-insert (&optional arg)
   (interactive "P")
-  (if (or (looking-back (concat "\\(" clmemo-weekdays-regexp "\\)[ \t]*"))
-	  (looking-back "[0-9]+[ \t]*"))
+  (if (or (looking-back (concat "\\(" clmemo-weekdays-regexp "\\)[ \t]*") nil)
+	      (looking-back "[0-9]+[ \t]*" nil))
       (clmemo-inline-date-convert arg)
     (clmemo-inline-date-mode arg)))
 
